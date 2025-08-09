@@ -7,7 +7,8 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #000;
+        color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -15,10 +16,10 @@
         height: 100vh;
     }
     .quiz-box {
-        background: white;
+        background: rgba(0, 0, 0, 0.7);
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border: 1px solid #444;
         width: 300px;
         text-align: center;
     }
@@ -28,14 +29,22 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        background-color: #111;
+        color: #fff;
+        font-weight: bold;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+    button:hover {
+        background-color: #333;
+        transform: scale(1.05);
     }
     .correct {
-        background-color: #4CAF50;
-        color: white;
+        background-color: #0f0;
+        color: #000;
     }
     .wrong {
-        background-color: #f44336;
-        color: white;
+        background-color: #f00;
+        color: #fff;
     }
 </style>
 </head>
@@ -82,8 +91,6 @@ const ports = [
     { port: "8080", service: "HTTP (Alternate)" }
 ];
 
-let currentQuestion = 0;
-
 function loadQuestion() {
     document.getElementById("result").textContent = "";
     const question = ports[Math.floor(Math.random() * ports.length)];
@@ -112,10 +119,10 @@ function checkAnswer(selected, correct) {
     const result = document.getElementById("result");
     if (selected === correct) {
         result.textContent = "✅ Correct!";
-        result.style.color = "green";
+        result.style.color = "#0f0";
     } else {
         result.textContent = `❌ Wrong! Correct answer: ${correct}`;
-        result.style.color = "red";
+        result.style.color = "#f00";
     }
 }
 
