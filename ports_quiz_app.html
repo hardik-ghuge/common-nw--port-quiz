@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Port Quiz</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    .quiz-box {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 300px;
+        text-align: center;
+    }
+    button {
+        padding: 10px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .correct {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .wrong {
+        background-color: #f44336;
+        color: white;
+    }
+</style>
+</head>
+<body>
+<div class="quiz-box">
+    <h2 id="question">Loading...</h2>
+    <div id="options"></div>
+    <p id="result"></p>
+    <button onclick="nextQuestion()">Next</button>
+</div>
+
+<script>
+const ports = [
+    { port: "20", service: "FTP (Data Transfer)" },
+    { port: "21", service: "FTP (Control)" },
+    { port: "22", service: "SSH" },
+    { port: "23", service: "Telnet" },
+    { port: "25", service: "SMTP" },
+    { port: "53", service: "DNS" },
+    { port: "67", service: "DHCP (Server)" },
+    { port: "68", service: "DHCP (Client)" },
+    { port: "69", service: "TFTP" },
+    { port: "80", service: "HTTP" },
+    { port: "110", service: "POP3" },
+    { port: "123", service: "NTP" },
+    { port: "137-139", service: "NetBIOS" },
+    { port: "143", service: "IMAP" },
+    { port: "161/162", service: "SNMP" },
+    { port: "179", service: "BGP" },
+    { port: "389", service: "LDAP" },
+    { port: "443", service: "HTTPS" },
+    { port: "445", service: "SMB" },
+    { port: "514", service: "Syslog" },
+    { port: "587", service: "SMTP (Submission)" },
+    { port: "993", service: "IMAPS" },
+    { port: "995", service: "POP3S" },
+    { port: "1433", service: "MS SQL Server" },
+    { port: "1521", service: "Oracle Database" },
+    { port: "3306", service: "MySQL" },
+    { port: "3389", service: "RDP" },
+    { port: "5432", service: "PostgreSQL" },
+    { port: "5900", service: "VNC" },
+    { port: "6379", service: "Redis" },
+    { port: "8080", service: "HTTP (Alternate)" }
+];
+
+let currentQuestion = 0;
+
+function loadQuestion() {
+    document.getElementById("result").textContent = "";
+    const question = ports[Math.floor(Math.random() * ports.length)];
+    document.getElementById("question").textContent = `What service runs on port ${question.port}?`;
+    
+    let options = [question.service];
+    while (options.length < 4) {
+        let randomService = ports[Math.floor(Math.random() * ports.length)].service;
+        if (!options.includes(randomService)) {
+            options.push(randomService);
+        }
+    }
+    options.sort(() => Math.random() - 0.5);
+    
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(option, question.service);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct) {
+    const result = document.getElementById("result");
+    if (selected === correct) {
+        result.textContent = "✅ Correct!";
+        result.style.color = "green";
+    } else {
+        result.textContent = `❌ Wrong! Correct answer: ${correct}`;
+        result.style.color = "red";
+    }
+}
+
+function nextQuestion() {
+    loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
